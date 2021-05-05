@@ -93,11 +93,11 @@ for cup in cups[-1:int(len(cups)/2)-1:-1]:
 
 # CREATE PLAYERS
 p1 = Side(is_AI=True)
-p2 = Side(is_AI=False)
+p2 = Side(is_AI=True)
 players = [p1, p2]
 cups = [p1_cups, p2_cups]
 current_player = random.randint(0, 1)  # p1 = players[0], p2 = players[-1]
-current_player = 1
+current_player = 0
 
 # MAIN LOOP
 prev_move = p1_cups[0]
@@ -111,20 +111,32 @@ while True:
     print(AI.movgen(players[current_player]))
     print('lacznie kamieni:', players[0].count() + players[1].count())
     
+    alphabeta_result = AI.alphabeta(players[current_player], players[current_player-1])
     minmax_result = AI.minmax(players[current_player], players[current_player-1])
 
     print(players[0].get_cups())
     print(players[1].get_cups()[::-1])
     
-
+    print(f"\nMOVES FOR PLAYER {current_player + 1}: --------------------------")
+    
+    if current_player == 1:
+        print('MINMAX')
+    else:
+        print('ALPHA')
     print(minmax_result)
+    print(alphabeta_result)
+    print("----------------------------------")
 
     if not players[current_player].AI:
         event, values = window.read()
     else:
-        _, _ = window.read(timeout=500)
+        _, _ = window.read(timeout=50)
 
-        event = minmax_result[1].split(' ')[0]
+        if current_player == 1:
+            event = minmax_result[1].split(' ')[0]
+        else:
+            event = alphabeta_result[1].split(' ')[0]
+            # event = minmax_result[1].split(' ')[0]
 
     print(event)
     if is_int(event):

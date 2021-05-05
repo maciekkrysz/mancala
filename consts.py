@@ -1,7 +1,8 @@
 n = 6
 k = 4
 
-MINMAX_DEPTH = 5
+MINMAX_DEPTH = 7
+ALPHABETA_DEPTH = 9
 
-sizex = 1200
-sizey = 600
+sizex = 1000
+sizey = 500
